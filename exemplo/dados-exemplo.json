@@ -1,0 +1,115 @@
+{
+  "pessoal": {
+    "nome": "Marina Haubert Scherer",
+    "email": "marina.scherer@exemplo.com.br",
+    "celular": "(55) 99999-0000",
+    "linkedin": "linkedin.com/in/marina-scherer-exemplo",
+    "github": "github.com/marina-scherer-exemplo"
+  },
+  "resumo": "Estudante de Sistemas de Informação, no 4º semestre, com foco em desenvolvimento back-end e automação de processos. Construo APIs em Python e integrações que tiram tarefas repetitivas do dia a dia de pequenas empresas. Procuro um estágio em que eu possa levar código para produção e aprender com um time mais experiente.",
+  "habilidades": [
+    {
+      "categoria": "Linguagens",
+      "itens": "Python, JavaScript, SQL"
+    },
+    {
+      "categoria": "Back-end",
+      "itens": "Flask, FastAPI, PostgreSQL, Redis"
+    },
+    {
+      "categoria": "Ferramentas",
+      "itens": "Git, Docker, Linux, Figma"
+    },
+    {
+      "categoria": "Idiomas",
+      "itens": "Português (nativo), Inglês (intermediário)"
+    }
+  ],
+  "experiencias": [
+    {
+      "cargo": "Estagiária de Tecnologia",
+      "empresa": "Vale Verde Agronegócios (empresa fictícia)",
+      "local": "Santa Maria, RS",
+      "pontos": "Desenvolvi uma API em Flask para registrar a entrada e a saída de insumos, hoje usada por 12 pessoas do time de campo.\nAutomatizei a conferência de notas fiscais com Python, reduzindo de 3 horas para 20 minutos o fechamento semanal.\nEscrevi a documentação de uso do sistema e treinei quatro colegas de outros setores.",
+      "contexto": "Equipe de três pessoas, responsável por todos os sistemas internos da empresa.",
+      "inicio_mes": "Mar",
+      "inicio_ano": "2026",
+      "atual": true,
+      "fim_mes": "",
+      "fim_ano": ""
+    },
+    {
+      "cargo": "Monitora de Programação",
+      "empresa": "Projeto Jovem e Tecnologia (projeto fictício)",
+      "local": "Recanto Maestro, RS",
+      "pontos": "Dei aulas de lógica de programação e Python para 20 adolescentes, aos sábados.\nMontei exercícios a partir de problemas reais trazidos pelos próprios alunos.",
+      "contexto": "",
+      "inicio_mes": "Ago",
+      "inicio_ano": "2025",
+      "fim_mes": "Fev",
+      "fim_ano": "2026",
+      "atual": false
+    }
+  ],
+  "formacoes": [
+    {
+      "instituicao": "Antonio Meneghetti Faculdade",
+      "grau": "Graduação",
+      "curso": "Sistemas de Informação",
+      "inicio_mes": "Fev",
+      "inicio_ano": "2025",
+      "atual": true,
+      "fim_mes": "",
+      "fim_ano": ""
+    },
+    {
+      "instituicao": "Instituto Federal Farroupilha (exemplo)",
+      "grau": "Técnico",
+      "curso": "Informática para Internet",
+      "inicio_mes": "Fev",
+      "inicio_ano": "2022",
+      "fim_mes": "Dez",
+      "fim_ano": "2024",
+      "atual": false
+    }
+  ],
+  "palestras": [
+    {
+      "titulo": "Automação de processos com Python em pequenas empresas",
+      "descricao": "Palestra de 40 minutos na Semana Acadêmica de Sistemas de Informação, com demonstração ao vivo de um robô de conferência de notas.",
+      "mes": "Out",
+      "ano": "2026"
+    }
+  ],
+  "publicacoes": [
+    {
+      "titulo": "Um guia prático de integrações para quem está começando",
+      "descricao": "Artigo publicado no blog do curso, com exemplos de consumo de API e tratamento de erros.",
+      "mes": "Set",
+      "ano": "2026"
+    }
+  ],
+  "certificacoes": [
+    {
+      "nome": "AWS Cloud Practitioner (exemplo)",
+      "mes": "Mai",
+      "ano": "2026"
+    },
+    {
+      "nome": "Scrum Foundation Professional (exemplo)",
+      "mes": "Nov",
+      "ano": "2025"
+    }
+  ],
+  "voluntariado": [
+    {
+      "funcao": "Voluntária em feira de profissões",
+      "descricao": "Apresento o curso de Sistemas de Informação para estudantes do ensino médio e ajudo na organização das oficinas.",
+      "inicio_mes": "Mar",
+      "inicio_ano": "2025",
+      "atual": true,
+      "fim_mes": "",
+      "fim_ano": ""
+    }
+  ]
+}

@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gerador de Currículo</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<main class="wrap">
+  <header class="topo">
+    <h1>Gerador de Currículo</h1>
+    <p>Preencha os campos, clique em <strong>Gerar e baixar</strong> e o PDF sai pronto. O que você digita fica salvo só neste navegador, então dá para voltar e editar depois. Seções deixadas em branco não aparecem no currículo.</p>
+  </header>
+
+  <form id="form" novalidate>
+    <section class="card">
+      <h2>Dados pessoais</h2>
+      <div class="grid">
+        <label class="col-4">Nome completo *
+          <input name="nome" data-grupo="pessoal" required maxlength="80" autocomplete="name">
+        </label>
+        <label>E-mail *
+          <input name="email" data-grupo="pessoal" type="email" required maxlength="120" autocomplete="email">
+        </label>
+        <label>Celular
+          <input name="celular" data-grupo="pessoal" maxlength="40" autocomplete="tel" placeholder="+55 55 99999-9999">
+        </label>
+        <label>LinkedIn
+          <input name="linkedin" data-grupo="pessoal" maxlength="200" placeholder="www.linkedin.com/in/seu-perfil">
+        </label>
+        <label>GitHub
+          <input name="github" data-grupo="pessoal" maxlength="200" placeholder="https://github.com/seu-usuario">
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Resumo</h2>
+      <label>Quem é você, o que sabe fazer e o que busca (3 a 5 linhas)
+        <textarea name="resumo" rows="5" maxlength="1500" placeholder="Estudante de Sistemas de Informação com interesse em desenvolvimento web..."></textarea>
+      </label>
+    </section>
+
+    <section class="card">
+      <h2>Habilidades</h2>
+      <p class="dica">Uma linha por categoria, com as habilidades separadas por vírgula. Linhas com a mesma categoria são juntadas no PDF.</p>
+      <div class="lista" data-secao="habilidades"></div>
+      <button type="button" class="add" data-add="habilidades">+ Adicionar categoria</button>
+    </section>
+
+    <section class="card">
+      <h2>Experiência</h2>
+      <p class="dica">Da mais recente para a mais antiga. Estágios e trabalhos informais também contam. Se ainda está no cargo, marque <em>Atual</em> em vez de preencher o término.</p>
+      <div class="lista" data-secao="experiencias"></div>
+      <button type="button" class="add" data-add="experiencias">+ Adicionar experiência</button>
+    </section>
+
+    <section class="card">
+      <h2>Formação</h2>
+      <div class="lista" data-secao="formacoes"></div>
+      <button type="button" class="add" data-add="formacoes">+ Adicionar formação</button>
+    </section>
+
+    <section class="card">
+      <h2>Palestras</h2>
+      <div class="lista" data-secao="palestras"></div>
+      <button type="button" class="add" data-add="palestras">+ Adicionar palestra</button>
+    </section>
+
+    <section class="card">
+      <h2>Publicações</h2>
+      <div class="lista" data-secao="publicacoes"></div>
+      <button type="button" class="add" data-add="publicacoes">+ Adicionar publicação</button>
+    </section>
+
+    <section class="card">
+      <h2>Certificações</h2>
+      <div class="lista" data-secao="certificacoes"></div>
+      <button type="button" class="add" data-add="certificacoes">+ Adicionar certificação</button>
+    </section>
+
+    <section class="card">
+      <h2>Voluntariado</h2>
+      <div class="lista" data-secao="voluntariado"></div>
+      <button type="button" class="add" data-add="voluntariado">+ Adicionar voluntariado</button>
+    </section>
+  </form>
+</main>
+
+<footer class="barra">
+  <div class="barra-in">
+    <span id="status" role="status" aria-live="polite"></span>
+    <button type="button" id="limpar" class="sec">Limpar tudo</button>
+    <button type="submit" form="form" id="gerar" class="pri">Gerar e baixar CV</button>
+  </div>
+</footer>
+
+<!-- Modelos dos itens repetíveis. O nome do template é tpl-<secao>.
+     Os selects com data-meses são preenchidos pelo app.js. -->
+<template id="tpl-habilidades">
+  <div class="item">
+    <div class="item-topo"><span class="item-num"></span><span class="acoes"></span></div>
+    <div class="grid">
+      <label class="col-1">Categoria <input data-campo="categoria" maxlength="60" placeholder="Linguagens"></label>
+      <label class="col-3">Habilidades <input data-campo="itens" maxlength="300" placeholder="Python, Java, JavaScript"></label>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-experiencias">
+  <div class="item">
+    <div class="item-topo"><span class="item-num"></span><span class="acoes"></span></div>
+    <div class="grid">
+      <label>Cargo <input data-campo="cargo" maxlength="120" placeholder="Estagiário de Desenvolvimento"></label>
+      <label>Empresa <input data-campo="empresa" maxlength="120"></label>
+      <label>Local <input data-campo="local" maxlength="120" placeholder="Santa Maria - Brasil"></label>
+      <fieldset class="periodo">
+        <legend>Período</legend>
+        <div class="periodo-campos">
+          <label>Mês de início <select data-campo="inicio_mes" data-meses></select></label>
+          <label>Ano de início <input data-campo="inicio_ano" type="number" min="1900" max="2100" placeholder="2025"></label>
+          <label class="fim">Mês de término <select data-campo="fim_mes" data-meses></select></label>
+          <label class="fim">Ano de término <input data-campo="fim_ano" type="number" min="1900" max="2100" placeholder="2026"></label>
+        </div>
+        <label class="check"><input type="checkbox" data-campo="atual"><span>Atual — ainda trabalho aqui</span></label>
+      </fieldset>
+      <label class="col-4">Principais realizações (uma por linha)
+        <textarea data-campo="pontos" rows="3" maxlength="1500" placeholder="Reduzi o tempo de resposta dos chamados em 30%&#10;Automatizei o relatório semanal da equipe"></textarea>
+      </label>
+      <label class="col-4">Contexto
+        <textarea data-campo="contexto" rows="3" maxlength="1500" placeholder="Sobre a empresa, a equipe e o seu papel."></textarea>
+      </label>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-formacoes">
+  <div class="item">
+    <div class="item-topo"><span class="item-num"></span><span class="acoes"></span></div>
+    <div class="grid">
+      <label>Instituição <input data-campo="instituicao" maxlength="120" placeholder="Antonio Meneghetti Faculdade"></label>
+      <label>Grau <input data-campo="grau" maxlength="60" list="graus" placeholder="Bacharelado"></label>
+      <label>Curso <input data-campo="curso" maxlength="120" placeholder="Sistemas de Informação"></label>
+      <fieldset class="periodo">
+        <legend>Período</legend>
+        <div class="periodo-campos">
+          <label>Mês de início <select data-campo="inicio_mes" data-meses></select></label>
+          <label>Ano de início <input data-campo="inicio_ano" type="number" min="1900" max="2100" placeholder="2026"></label>
+          <label class="fim">Mês de término <select data-campo="fim_mes" data-meses></select></label>
+          <label class="fim">Ano de término <input data-campo="fim_ano" type="number" min="1900" max="2100" placeholder="2029"></label>
+        </div>
+        <label class="check"><input type="checkbox" data-campo="atual"><span>Atual — ainda estou cursando</span></label>
+      </fieldset>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-palestras">
+  <div class="item">
+    <div class="item-topo"><span class="item-num"></span><span class="acoes"></span></div>
+    <div class="grid">
+      <label>Título <input data-campo="titulo" maxlength="300"></label>
+      <label class="col-1">Mês <select data-campo="mes" data-meses></select></label>
+      <label class="col-1">Ano <input data-campo="ano" type="number" min="1900" max="2100" placeholder="2025"></label>
+      <label class="col-4">Descrição <input data-campo="descricao" maxlength="1500" placeholder="Evento, local"></label>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-publicacoes">
+  <div class="item">
+    <div class="item-topo"><span class="item-num"></span><span class="acoes"></span></div>
+    <div class="grid">
+      <label>Título <input data-campo="titulo" maxlength="300"></label>
+      <label class="col-1">Mês <select data-campo="mes" data-meses></select></label>
+      <label class="col-1">Ano <input data-campo="ano" type="number" min="1900" max="2100" placeholder="2025"></label>
+      <label class="col-4">Descrição <input data-campo="descricao" maxlength="1500" placeholder="Onde foi publicado"></label>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-certificacoes">
+  <div class="item">
+    <div class="item-topo"><span class="item-num"></span><span class="acoes"></span></div>
+    <div class="grid">
+      <label>Certificação <input data-campo="nome" maxlength="120"></label>
+      <label class="col-1">Mês <select data-campo="mes" data-meses></select></label>
+      <label class="col-1">Ano <input data-campo="ano" type="number" min="1900" max="2100" placeholder="2025"></label>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-voluntariado">
+  <div class="item">
+    <div class="item-topo"><span class="item-num"></span><span class="acoes"></span></div>
+    <div class="grid">
+      <label>Função <input data-campo="funcao" maxlength="120" placeholder="Monitor de Algoritmos"></label>
+      <fieldset class="periodo">
+        <legend>Período</legend>
+        <div class="periodo-campos">
+          <label>Mês de início <select data-campo="inicio_mes" data-meses></select></label>
+          <label>Ano de início <input data-campo="inicio_ano" type="number" min="1900" max="2100" placeholder="2025"></label>
+          <label class="fim">Mês de término <select data-campo="fim_mes" data-meses></select></label>
+          <label class="fim">Ano de término <input data-campo="fim_ano" type="number" min="1900" max="2100" placeholder="2025"></label>
+        </div>
+        <label class="check"><input type="checkbox" data-campo="atual"><span>Atual — ainda participo</span></label>
+      </fieldset>
+      <label class="col-4">Descrição
+        <textarea data-campo="descricao" rows="3" maxlength="1500"></textarea>
+      </label>
+    </div>
+  </div>
+</template>
+
+<datalist id="graus">
+  <option value="Ensino Médio">
+  <option value="Técnico">
+  <option value="Técnico Integrado">
+  <option value="Tecnólogo">
+  <option value="Bacharelado">
+  <option value="Licenciatura">
+  <option value="Especialização">
+  <option value="MBA">
+  <option value="Mestrado">
+  <option value="Doutorado">
+</datalist>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
